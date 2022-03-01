@@ -1,7 +1,14 @@
 import Head from 'next/head'
 import { NextPage } from 'next'
+import { PostsData } from 'models'
 
-const Home: NextPage = () => {
+type Props = {
+  posts: PostsData[]
+}
+
+const Home: NextPage<Props> = ({ posts }: Props) => {
+  console.log('ssr', posts)
+
   return (
     <div>
       <Head>
@@ -11,12 +18,30 @@ const Home: NextPage = () => {
       </Head>
 
       <main>
-        <h1>
-          Welcome to <a href="https://nextjs.org">Next.js!</a>
-        </h1>
+        <h1>Post 一覧</h1>
+        <div>
+          <table>
+            <thead>
+              <tr>
+                <th>id</th>
+                <th>userId</th>
+                <th>title</th>
+                <th>body</th>
+              </tr>
+            </thead>
+            <tbody></tbody>
+          </table>
+        </div>
       </main>
     </div>
   )
 }
 
 export default Home
+
+export const getServerSideProps = async () => {
+  const res = await fetch('https://jsonplaceholder.typicode.com/posts')
+  const posts = await res.json()
+  console.log(posts)
+  return { props: { posts } }
+}
