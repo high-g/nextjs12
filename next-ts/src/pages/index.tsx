@@ -29,7 +29,16 @@ const Home: NextPage<Props> = ({ posts }: Props) => {
                 <th>body</th>
               </tr>
             </thead>
-            <tbody></tbody>
+            <tbody>
+              {posts.map((post, key) => (
+                <tr key={key}>
+                  <td>{post.id}</td>
+                  <td>{post.userId}</td>
+                  <td>{post.title}</td>
+                  <td>{post.body}</td>
+                </tr>
+              ))}
+            </tbody>
           </table>
         </div>
       </main>
